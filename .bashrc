@@ -65,7 +65,7 @@ complete -F __start_kubectl kc
 
 source <(helm completion bash)
 
-complete -C '/usr/local/bin/aws_completer' aws
+complete -C "$HOME/.local/bin/aws_completer" aws
 
 ####################  COMPLETION END    ###################
 
