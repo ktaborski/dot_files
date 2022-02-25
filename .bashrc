@@ -45,6 +45,16 @@ retry() {
     fi
 }
 
+cdwork() {
+    mkdir -p "${HOME}/WORK/${1}"
+    cd "${HOME}/WORK/${1}"
+}
+
+_cdwork_completions() {
+    COMPREPLY=()
+    COMPREPLY+=($(compgen -W "$(find "${HOME}/WORK/" -maxdepth 1 -type d | sed -e "s#${HOME}/WORK/##")" "${COMP_WORDS[1]}"))
+}
+
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
@@ -65,7 +75,11 @@ complete -F __start_kubectl kc
 
 source <(helm completion bash)
 
-complete -C "$HOME/.local/bin/aws_completer" aws
+complete -C /usr/local/bin/aws_completer aws
+
+complete -F _cdwork_completions cdwork
+
+source <(gh completion -s bash)
 
 ####################  COMPLETION END    ###################
 
