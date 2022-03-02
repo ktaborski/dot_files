@@ -101,6 +101,6 @@ context() {
     kc config current-context
 }
 
-PS1='\[\e[0;32m\]\u\[\e[m\]:\[\e[0;34m\][$(__git_ps1)]\[\e[0;31m\]<$(context)>\[\e[m\] \W $ '
+PS1='(\t) \[\e[0;32m\]\u\[\e[m\]:\[\e[0;34m\][$(__git_ps1)]\[\e[0;31m\]<$(context)>\[\e[m\] \W $ '
 
 ####################    PS1 END    ########################
