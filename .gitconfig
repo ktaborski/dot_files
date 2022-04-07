@@ -14,6 +14,7 @@
     lg = log --graph --oneline
     amend = commit --amend --no-edit
     tree = log --graph --abbrev-commit --decorate --oneline
+    files = show --pretty="" --name-only
     pull-all = !git pull && git submodule sync --recursive && git submodule update --init --recursive
     pull-push = !git pull && git push
     sm-update = !git submodule sync --recursive && git submodule update --init --recursive

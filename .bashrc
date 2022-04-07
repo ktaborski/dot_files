@@ -10,14 +10,14 @@ if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
 then
     PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 fi
-PATH=$PATH:/home/ktaborski/repos/tools/bin
+PATH=$PATH:$HOME/.krew/bin:/home/ktaborski/repos/tools/bin
 export PATH
 
 export VISUAL='vim'
 export EDITOR="$VISUAL"
 export SVN_EDITOR="$VISUAL"
 export NOEXT="--ignore-externals"
-
+export DOCKER_BUILDKIT=1
 # User specific aliases and functions
 if [ -d ~/.bashrc.d ]; then
 	for rc in ~/.bashrc.d/*; do
@@ -65,7 +65,8 @@ alias where='find . -name'
 alias wget='wget -c'
 alias my-commits='git log --author=${USER}'
 alias code='code -n'
-
+alias aws_profile='export AWS_PROFILE=shareablee'
+alias set_namespace='kubectl config set-context --current --namespace'
 ####################  ALIASES END  ########################
 
 ####################  COMPLETION START  ###################
@@ -98,7 +99,16 @@ parse_git_branch() {
 }
 
 context() {
-    kc config current-context
+    namespace=$(kc config view --minify --output 'jsonpath={..namespace}')
+    if [ -z ${namespace} ]; then
+        namespace='default'
+    fi
+    if [ -n "${KUBE_CONTEXT}" ]; then
+        context=${KUBE_CONTEXT}
+    else
+        context=$(kc config current-context)
+    fi
+    echo "${context}:${namespace}"
 }
 
 PS1='(\t) \[\e[0;32m\]\u\[\e[m\]:\[\e[0;34m\][$(__git_ps1)]\[\e[0;31m\]<$(context)>\[\e[m\] \W $ '
