@@ -1,0 +1,1 @@
+aws ec2 describe-instances --filters "Name=private-ip-address,Values=$1"

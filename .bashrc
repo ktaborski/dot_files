@@ -54,6 +54,10 @@ _cdwork_completions() {
     COMPREPLY=()
     COMPREPLY+=($(compgen -W "$(find "${HOME}/WORK/" -maxdepth 1 -type d | sed -e "s#${HOME}/WORK/##")" "${COMP_WORDS[1]}"))
 }
+_set_namespace_completions() {
+    COMPREPLY=()
+    COMPREPLY+=($(compgen -W "$(complete_ns.py)" "${COMP_WORDS[1]}"))
+}
 
 alias ll='ls -alF'
 alias la='ls -A'
@@ -79,6 +83,7 @@ source <(helm completion bash)
 complete -C /usr/local/bin/aws_completer aws
 
 complete -F _cdwork_completions cdwork
+complete -F _set_namespace_completions set_namespace
 
 source <(gh completion -s bash)
 

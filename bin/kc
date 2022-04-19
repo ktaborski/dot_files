@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -e
+
+exec kubectl ${KUBE_CONTEXT:+--context $KUBE_CONTEXT} "${@}"
