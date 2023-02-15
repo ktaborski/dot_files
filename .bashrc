@@ -104,14 +104,17 @@ parse_git_branch() {
 }
 
 context() {
-    namespace=$(kc config view --minify --output 'jsonpath={..namespace}')
+    namespace=$(kc config view --minify --output 'jsonpath={..namespace}' 2>/dev/null)
     if [ -z ${namespace} ]; then
         namespace='default'
     fi
     if [ -n "${KUBE_CONTEXT}" ]; then
         context=${KUBE_CONTEXT}
     else
-        context=$(kc config current-context)
+        context=$(kc config current-context 2>/dev/null)
+        if [[ -z ${context} ]]; then
+            return 0
+        fi
     fi
     echo "${context}:${namespace}"
 }
