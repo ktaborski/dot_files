@@ -82,7 +82,10 @@ complete -F __start_kubectl kc
 
 source <(helm completion bash)
 
-source <(flux completion bash)
+if which flux >/dev/null 2>&1; then
+    source <(flux completion bash)
+fi
+
 
 complete -C aws_completer aws
 
@@ -91,7 +94,9 @@ complete -F _set_namespace_completions set_namespace
 
 source <(gh completion -s bash)
 
-source <(eksctl completion bash)
+if which eksctl >/dev/null 2>&1; then
+    source <(eksctl completion bash)
+fi
 
 complete -C /usr/bin/terraform terraform
 
