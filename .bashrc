@@ -29,22 +29,22 @@ fi
 
 unset rc
 
-retry() {
-    local max_tries=$1
-    shift
-    local cmd=$@
-    for ((tries=0; tries < max_tries; tries++)); do
-            (set +e; eval "$cmd") && break
-            sleep 10
-    done
-    if [[ $tries -eq $max_tries ]]; then
-        echo "'$1' failed after $tries tries, aborting." >&2
-        return 1
-    else
-        return 0
-    fi
-}
-export -f retry
+# retry() {
+#     local max_tries=$1
+#     shift
+#     local cmd=$@
+#     for ((tries=0; tries < max_tries; tries++)); do
+#             (set +e; eval "$cmd") && break
+#             sleep 10
+#     done
+#     if [[ $tries -eq $max_tries ]]; then
+#         echo "'$1' failed after $tries tries, aborting." >&2
+#         return 1
+#     else
+#         return 0
+#     fi
+# }
+# export -f retry
 
 cdwork() {
     mkdir -p "${HOME}/WORK/${1}"
