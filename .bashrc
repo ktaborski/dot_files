@@ -95,6 +95,9 @@ source <(eksctl completion bash)
 
 complete -C /usr/bin/terraform terraform
 
+if which az.completion.sh >/dev/null 2>&1; then
+    source az.completion.sh
+fi
 ####################  COMPLETION END    ###################
 
 ####################   PS1 START   ########################
