@@ -18,14 +18,21 @@
     pull-all = !git pull && git submodule sync --recursive && git submodule update --init --recursive
     pull-push = !git pull && git push
     sm-update = !git submodule sync --recursive && git submodule update --init --recursive
+    dev-rebase = !git co dev && git pull && git sm-update && git co - && git rebase dev
+    master-rebase = !git co master && git pull && git co - && git rebase master
+    main-rebase = !git co main && git pull && git co - && git rebase main
+    pull-stash = !git stash && git pull && git stash apply
     push-for-review = push origin HEAD:refs/for/master
     draft = push origin HEAD:refs/drafts/master
     push-draft = push origin HEAD:refs/drafts/master
     force-amend = !git amend -a --no-edit && git push --force
+    mdiff = difftool --dir-diff
 [core]
-    editor = vim
-	excludesfile = /home/taborski/.gitignore_global
+    editor = code -nw
+	excludesfile = ~/.gitignore_global
 [diff]
     tool = meld
 [pull]
 	rebase = true
+[credential]
+	helper = store
