@@ -19,6 +19,7 @@ def update():
             continue
         ns = subprocess.check_output(['kubectl', '--context', context_name, 'get', 'ns', '-o', 'name']).decode().split('\n')
         data[context_name] = [x.replace('namespace/', '') for x in ns if x] 
+    print(f"updating {CACHE_FILE}")
     with open(CACHE_FILE, 'w') as outfile:
         yaml.dump(data, outfile, default_flow_style=False)
 
