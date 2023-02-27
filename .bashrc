@@ -6,15 +6,15 @@ if [ -f /etc/bashrc ]; then
 fi
 
 # User specific environment
-if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
+if ! [[ "$PATH" =~ "$HOME/bin:$HOME/.local/bin:" ]]
 then
-    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+    PATH="$HOME/bin:$PATH:$HOME/.local/bin:"
 fi
-PATH=$PATH:$HOME/.krew/bin:/home/ktaborski/repos/tools/bin
 export PATH
 
+
 export VISUAL='vim'
-export EDITOR="$VISUAL"
+export EDITOR="code -nw"
 export SVN_EDITOR="$VISUAL"
 export NOEXT="--ignore-externals"
 export DOCKER_BUILDKIT=1
@@ -34,8 +34,8 @@ retry() {
     shift
     local cmd=$@
     for ((tries=0; tries < max_tries; tries++)); do
-            sleep 10 
             (set +e; eval "$cmd") && break
+            sleep 10
     done
     if [[ $tries -eq $max_tries ]]; then
         echo "'$1' failed after $tries tries, aborting." >&2
@@ -44,6 +44,7 @@ retry() {
         return 0
     fi
 }
+export -f retry
 
 cdwork() {
     mkdir -p "${HOME}/WORK/${1}"
@@ -67,9 +68,10 @@ alias ps='ps xf'
 alias mkdir='mkdir -pv'
 alias where='find . -name'
 alias wget='wget -c'
-alias my-commits='git log --author=${USER}'
+alias my-commits='git log --author="Krzysztof Taborski"'
 alias code='code -n'
-alias aws_profile='export AWS_PROFILE=shareablee'
+alias aws_profile='export AWS_PROFILE=$(aws configure list-profiles | fzf)'
+alias awp='export AWS_PROFILE=$(aws configure list-profiles | fzf)'
 alias set_namespace='kubectl config set-context --current --namespace'
 ####################  ALIASES END  ########################
 
@@ -80,12 +82,18 @@ complete -F __start_kubectl kc
 
 source <(helm completion bash)
 
-complete -C /usr/local/bin/aws_completer aws
+source <(flux completion bash)
+
+complete -C aws_completer aws
 
 complete -F _cdwork_completions cdwork
 complete -F _set_namespace_completions set_namespace
 
 source <(gh completion -s bash)
+
+source <(eksctl completion bash)
+
+complete -C /usr/bin/terraform terraform
 
 ####################  COMPLETION END    ###################
 
@@ -119,6 +127,13 @@ context() {
     echo "${context}:${namespace}"
 }
 
-PS1='(\t) \[\e[0;32m\]\u\[\e[m\]:\[\e[0;34m\][$(__git_ps1)]\[\e[0;31m\]<$(context)>\[\e[m\] \W $ '
+PS1='(\t) \[\e[0;32m\]\u\[\e[m\]:\[\e[0;34m\][$(__git_ps1)]\[\e[0;31m\]<$(context)>\[\e[0;33m\]<${AWS_PROFILE}>\[\e[m\] \W $ '
 
 ####################    PS1 END    ########################
+
+function kubectlgetall {
+  for i in $(kubectl api-resources --verbs=list --namespaced -o name | grep -v "events.events.k8s.io" | grep -v "events" | sort | uniq); do
+    echo "Resource:" $i
+    kubectl -n ${1} get --ignore-not-found ${i}
+  done
+}
