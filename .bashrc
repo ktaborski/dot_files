@@ -73,6 +73,7 @@ alias code='code -n'
 alias aws_profile='export AWS_PROFILE=$(aws configure list-profiles | fzf)'
 alias awp='export AWS_PROFILE=$(aws configure list-profiles | fzf)'
 alias set_namespace='kubectl config set-context --current --namespace'
+alias grep='grep --color=auto --line-buffered'
 ####################  ALIASES END  ########################
 
 ####################  COMPLETION START  ###################
