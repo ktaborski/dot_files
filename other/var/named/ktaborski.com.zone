@@ -1,0 +1,10 @@
+$TTL 86400
+@       IN      SOA     @ root (
+                        50 ; serial
+                        28800 ; refresh (8 hours)
+                        7200 ; retry (2 hours)
+                        604800 ; retire (1 week)
+                        86400 ; ttl (1 day)
+                        )
+            IN      NS      server
+*.ktaborski.com.     IN      A       192.168.49.2
