@@ -5,6 +5,8 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
+eval "$(dircolors $d)"
+
 # User specific environment
 if ! [[ "$PATH" =~ "$HOME/bin:$HOME/.local/bin:" ]]
 then
@@ -60,6 +62,7 @@ _set_namespace_completions() {
     COMPREPLY+=($(compgen -W "$(complete_ns.py)" "${COMP_WORDS[1]}"))
 }
 
+alias ls='ls --color=auto'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
