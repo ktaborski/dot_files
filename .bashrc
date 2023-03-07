@@ -6,6 +6,7 @@ if [ -f /etc/bashrc ]; then
 fi
 
 eval "$(dircolors $d)"
+source /usr/share/bash-completion/bash_completion
 
 # User specific environment
 if ! [[ "$PATH" =~ "$HOME/bin:$HOME/.local/bin:" ]]
@@ -15,6 +16,7 @@ fi
 PATH=$PATH:$HOME/.krew/bin
 export PATH
 
+export GOPATH=/home/ktaborski/.go
 
 export VISUAL='vim'
 export EDITOR="code -nw"
