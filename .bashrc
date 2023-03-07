@@ -12,6 +12,7 @@ if ! [[ "$PATH" =~ "$HOME/bin:$HOME/.local/bin:" ]]
 then
     PATH="$HOME/bin:$PATH:$HOME/.local/bin:"
 fi
+PATH=$PATH:$HOME/.krew/bin
 export PATH
 
 

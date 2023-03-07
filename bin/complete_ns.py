@@ -17,8 +17,11 @@ def update():
         context_name = context['name']
         if context_name == 'minikube':
             continue
-        ns = subprocess.check_output(['kubectl', '--context', context_name, 'get', 'ns', '-o', 'name']).decode().split('\n')
-        data[context_name] = [x.replace('namespace/', '') for x in ns if x] 
+        try:
+            ns = subprocess.check_output(['kubectl', '--context', context_name, 'get', 'ns', '-o', 'name']).decode().split('\n')
+            data[context_name] = [x.replace('namespace/', '') for x in ns if x]
+        except subprocess.CalledProcessError:
+            continue
     print(f"updating {CACHE_FILE}")
     with open(CACHE_FILE, 'w') as outfile:
         yaml.dump(data, outfile, default_flow_style=False)
