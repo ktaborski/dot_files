@@ -13,4 +13,4 @@ do
   ln -svf ${file} ~/"${file_dir}/"
 done < <(find $my_dir/.config -type f -print0)
 
-make -C retry install
+make -C ${my_dir}/retry install
