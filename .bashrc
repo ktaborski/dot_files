@@ -17,6 +17,7 @@ PATH=$PATH:$HOME/.krew/bin
 export PATH
 
 export GOPATH=/home/ktaborski/.go
+export PATH=${GOPATH}/bin:${PATH}
 
 export VISUAL='vim'
 export EDITOR="code -nw"
