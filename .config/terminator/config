@@ -6,7 +6,7 @@
     cursor_color = "#aaaaaa"
     foreground_color = "#00ff00"
     scrollback_infinite = True
-    word_chars = "-,./?%&#:_@"
+    word_chars = "-,./?%&#:_@~"
     copy_on_selection = True
 [layouts]
   [[default]]

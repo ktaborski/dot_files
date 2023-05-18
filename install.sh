@@ -14,3 +14,4 @@ do
 done < <(find $my_dir/.config -type f -print0)
 
 make -C ${my_dir}/retry install
+make -C ${my_dir}/decode-secret install

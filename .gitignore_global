@@ -6,3 +6,5 @@ dist/
 *egg*
 .vscode/*
 .vscode/launch.json
+.env
+.pyenv
