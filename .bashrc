@@ -5,8 +5,7 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
-eval "$(dircolors $d)"
-source /usr/share/bash-completion/bash_completion
+export PATH=/usr/local/bin:${PATH}
 
 # User specific environment
 if ! [[ "$PATH" =~ "$HOME/bin:$HOME/.local/bin:" ]]
@@ -81,6 +80,7 @@ alias aws_profile='export AWS_PROFILE=$(aws configure list-profiles | fzf)'
 alias awp='export AWS_PROFILE=$(aws configure list-profiles | fzf)'
 alias set_namespace='kubectl config set-context --current --namespace'
 alias grep='grep --color=auto --line-buffered'
+alias watch='watch -c'
 ####################  ALIASES END  ########################
 
 ####################  COMPLETION START  ###################

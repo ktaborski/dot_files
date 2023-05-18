@@ -10,7 +10,7 @@ import giturlparse
 repo = sys.argv[1]
 cmd = ['git', 'clone', repo]
 result = giturlparse.parse(repo)
-dest = result.pathname.replace('.git', '')
+dest = result.pathname.replace('.git', '').lstrip('/')
 if len(sys.argv) > 2:
     dest = os.path.join(sys.argv[2], dest)
 
