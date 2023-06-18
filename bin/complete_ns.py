@@ -14,13 +14,16 @@ def get_context():
 def update():
     data = {}
     for context in KUBECONFIG_DATA['contexts']:
+        print(context)
         context_name = context['name']
         if context_name == 'minikube':
             continue
         try:
-            ns = subprocess.check_output(['kubectl', '--context', context_name, 'get', 'ns', '-o', 'name']).decode().split('\n')
+            ns = subprocess.check_output(['timeout', '15', 'kubectl', '--context', context_name, 'get', 'ns', '-o', 'name']).decode().split('\n')
             data[context_name] = [x.replace('namespace/', '') for x in ns if x]
-        except subprocess.CalledProcessError:
+        except subprocess.CalledProcessError as err:
+            print(f"failed to update {context}, {err}")
+            data[context_name] = []
             continue
     print(f"updating {CACHE_FILE}")
     with open(CACHE_FILE, 'w') as outfile:

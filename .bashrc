@@ -23,6 +23,8 @@ export EDITOR="code -nw"
 export SVN_EDITOR="$VISUAL"
 export NOEXT="--ignore-externals"
 export DOCKER_BUILDKIT=1
+export PROMPT_COMMAND='history -a'
+
 # User specific aliases and functions
 if [ -d ~/.bashrc.d ]; then
 	for rc in ~/.bashrc.d/*; do
