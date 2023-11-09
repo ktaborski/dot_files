@@ -25,15 +25,6 @@ export NOEXT="--ignore-externals"
 export DOCKER_BUILDKIT=1
 export PROMPT_COMMAND='history -a'
 
-# User specific aliases and functions
-if [ -d ~/.bashrc.d ]; then
-	for rc in ~/.bashrc.d/*; do
-		if [ -f "$rc" ]; then
-			. "$rc"
-		fi
-	done
-fi
-
 unset rc
 
 # retry() {
@@ -83,6 +74,12 @@ alias awp='export AWS_PROFILE=$(aws configure list-profiles | fzf)'
 alias set_namespace='kubectl config set-context --current --namespace'
 alias grep='grep --color=auto --line-buffered'
 alias watch='watch -c'
+
+alias kg='kubectl get'
+alias kd='kubectl describe'
+alias kgp='kubectl get po'
+alias kdp='kubectl describe po'
+alias kgn='kubectl get node'
 ####################  ALIASES END  ########################
 
 ####################  COMPLETION START  ###################
@@ -96,6 +93,9 @@ if which flux >/dev/null 2>&1; then
     source <(flux completion bash)
 fi
 
+if which totp >/dev/null 2>&1; then
+    source <(totp completion bash)
+fi
 
 complete -C aws_completer aws
 
@@ -157,3 +157,13 @@ function kubectlgetall {
     kubectl -n ${1} get --ignore-not-found ${i}
   done
 }
+
+
+# User specific aliases and functions
+if [ -d ~/.bashrc.d ]; then
+	for rc in ~/.bashrc.d/*; do
+		if [ -f "$rc" ]; then
+			. "$rc"
+		fi
+	done
+fi

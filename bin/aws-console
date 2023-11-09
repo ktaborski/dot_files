@@ -21,7 +21,7 @@ def open_console(profile_name=None, echo_to_stdout=False):
     url_credentials = dict(sessionId=creds.access_key,sessionKey=creds.secret_key, sessionToken=creds.token)
 
     request_parameters = "?Action=getSigninToken"
-    request_parameters += "&DurationSeconds=43200"
+    request_parameters += "&DurationSeconds=7200"
     request_parameters += "&Session=" + parse.quote_plus(json.dumps(url_credentials))
     request_url = "https://signin.aws.amazon.com/federation" + request_parameters
     with request.urlopen(request_url) as response:
@@ -30,7 +30,7 @@ def open_console(profile_name=None, echo_to_stdout=False):
         signin_token = json.loads(response.read())
 
 
-    request_parameters = "?Action=login" 
+    request_parameters = "?Action=login"
     request_parameters += "&Destination=" + parse.quote_plus("https://console.aws.amazon.com/")
     request_parameters += "&SigninToken=" + signin_token["SigninToken"]
     request_parameters += "&Issuer=" + parse.quote_plus("https://example.com")
@@ -52,5 +52,5 @@ if __name__ == '__main__':
         profile = os.environ.get("AWS_PROFILE")
     else:
         profile = args.profile
-    
+
     open_console(profile, args.stdout)
