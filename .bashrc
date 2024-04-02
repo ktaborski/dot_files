@@ -5,6 +5,10 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
+
 export PATH=/usr/local/bin:${PATH}
 
 # User specific environment
@@ -70,14 +74,14 @@ alias wget='wget -c'
 alias my-commits='git log --author="Krzysztof Taborski"'
 alias code='code -n'
 alias aws_profile='export AWS_PROFILE=$(aws configure list-profiles | fzf)'
-alias awp='export AWS_PROFILE=$(aws configure list-profiles | fzf)'
+alias awp='export AWS_PROFILE=$(aws configure list-profiles | grep -v csps | fzf)'
 alias set_namespace='kubectl config set-context --current --namespace'
 alias grep='grep --color=auto --line-buffered'
-alias watch='watch -c'
-
+alias watch='watch -c '
 alias kg='kubectl get'
 alias kd='kubectl describe'
 alias kgp='kubectl get po'
+alias kl='kubectl logs'
 alias kdp='kubectl describe po'
 alias kgn='kubectl get node'
 ####################  ALIASES END  ########################
@@ -93,10 +97,6 @@ if which flux >/dev/null 2>&1; then
     source <(flux completion bash)
 fi
 
-if which totp >/dev/null 2>&1; then
-    source <(totp completion bash)
-fi
-
 complete -C aws_completer aws
 
 complete -F _cdwork_completions cdwork
@@ -110,7 +110,9 @@ if which eksctl >/dev/null 2>&1; then
     source <(eksctl completion bash)
 fi
 
-complete -C /usr/bin/terraform terraform
+if [[ -e /usr/local/bin/terraform ]]; then
+    complete -C /usr/local/bin/terraform terraform
+fi
 
 if which az.completion.sh >/dev/null 2>&1; then
     source az.completion.sh
